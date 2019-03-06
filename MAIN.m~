@@ -10,12 +10,9 @@
 %   filter options.
 
 
-
 % ------------ FOR PROF. SPENKO ------------ 
-addpath('solutions/') % to use the provided solutions
-% rmpath('solutions/')  % to not use the solutions
-% ------------ FOR PROF. SPENKO ------------ 
-
+% addpath('solutions/')
+% rmpath('solutions/')
 
 % ** USE THIS FILE TO CONFIGURE THE EKF-SLAM **
 configfile; 

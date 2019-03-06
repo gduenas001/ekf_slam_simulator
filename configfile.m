@@ -2,7 +2,7 @@
 %%% Permits various adjustments to parameters of the SLAM algorithm.
 %%% See ekfslam_sim.m for more information
 
-clear; %close all; clc;
+clear; close all; clc;
 
 % only shows a few decimals
 format compact
@@ -11,6 +11,7 @@ format compact
 addpath('functions/')
 addpath('functions/animations/')
 
+
 % load way points and landmarks
 load('maps/example_map.mat')
 
@@ -18,7 +19,7 @@ load('maps/example_map.mat')
 V= 3; % m/s
 MAXG= 30*pi/180; % radians, maximum steering angle (-MAXG < g < MAXG)
 RATEG= 20*pi/180; % rad/s, maximum rate of change in steer angle
-WHEELBASE= 4; % metres, vehicle wheel-base
+WHEELBASE= 2; % metres, vehicle wheel-base
 DT_CONTROLS= 0.025; % seconds, time interval between control signals
 
 % control noises

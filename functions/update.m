@@ -1,34 +1,22 @@
 function [x,P]= update(x,P,z,R,idf)
-% function [x,P]= update(x,P,z,R,idf, batch)
+% function [x,P]= update(x,P,z,R,idf)
 %
 % Inputs:
 %   x, P - SLAM state and covariance
 %   z, R - range-bearing measurements and covariances
-%   idf - feature index for each z
+%   idf - landmark index for each z
 %
 % Outputs:
 %   x, P - updated state and covariance
 
-lenz= size(z,2); % number of landmarks detected
-lenx= length(x); % number of states (including landmarks)
-H= zeros(2*lenz, lenx); % each landmark detection provides two measurements, thus 2*lenz number of rows
-gamma= zeros(2*lenz, 1); % innovation vector
-RR= zeros(2*lenz); % augmented covariance matrix
+%% Notes for student
+% This function implements the EKF update step.
+% First, you should create the Jacobian H and the innovation vector gamma.
+% Use the order provided in idf to compute them. As an example, if 
+% idf = [4 3 1], this means that the first extracted landmark in z
+% is associated to landmark 4 in the state vector, which are the elements
+% (3 + 3*2 + 1) : (3 + 3*2 + 2) in x. The second detected landmark
+% corresponds to landmark 3 in the state vector, which are the elements
+% (3 + 2*2 + 1) : (3 + 2*2 + 2) in x, and so on...
+% return the state vector (x) and cov. matrix (P) after the udpate step.
 
-% create innovation and Jacobians
-for i=1:lenz
-    ii= 2*i + (-1:0);
-    [zp,H(ii,:)]= observe_model(x, idf(i));
-    
-    gamma(ii)= [z(1,i) - zp(1);
-                pi_to_pi(z(2,i)-zp(2))];
-    RR(ii,ii)= R;
-end
-        
-% apply the EKF equations
-if lenz > 0
-    Y= H*P*H' + RR;
-    L= P*H'/Y;
-    x= x + L*gamma;
-    P= P - L*H*P;
-end

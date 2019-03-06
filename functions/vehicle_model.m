@@ -10,13 +10,7 @@ function xv= vehicle_model(xv, V,G, WB,dt)
 % OUTPUTS:
 %   xv - new vehicle pose
 
-xv= [xv(1) + V*dt*cos(G+xv(3,:)); 
-     xv(2) + V*dt*sin(G+xv(3,:));
-     pi_to_pi(xv(3) + V*dt*sin(G)/WB)];
- 
-% %% using the rear wheel as ref point
-% xv= [xv(1) + V*dt*cos(xv(3)); 
-%      xv(2) + V*dt*sin(xv(3));
-%      pi_to_pi(xv(3) + V*dt*tan(G)/WB)];
- 
- 
+%% Notes for student:
+% Using the bicycle model explained in class, this function must return
+% x(k+1).
+

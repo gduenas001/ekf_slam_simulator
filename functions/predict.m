@@ -11,50 +11,13 @@ function [x,P]= predict (x,P,v,g,Q,WB,dt)
 % Outputs: 
 %   xn, Pn - predicted state and covariance
 
-s= sin(g+x(3)); c= cos(g+x(3));
-vts= v*dt*s; vtc= v*dt*c;
-
-% jacobians   
-Gv= [1 0 -vts;
-     0 1  vtc;
-     0 0 1];
-Gu= [dt*c -vts;
-     dt*s  vtc;
-     dt*sin(g)/WB v*dt*cos(g)/WB];
-  
-% predict covariance
-P(1:3,1:3)= Gv*P(1:3,1:3)*Gv' + Gu*Q*Gu';
-if size(P,1)>3
-    P(1:3,4:end)= Gv*P(1:3,4:end);
-    P(4:end,1:3)= P(1:3,4:end)';
-end    
-
-% predict state
-x(1:3)= [x(1) + vtc; 
-         x(2) + vts;
-         pi_to_pi(x(3)+ v*dt*sin(g)/WB)];
-
-
-% %% using the rear wheel as ref point
-% s= sin(x(3)); c= cos(x(3));
-% vts= v*dt*s; vtc= v*dt*c;
-% 
-% % jacobians   
-% Gv= [1 0 -vts;
-%      0 1  vtc;
-%      0 0 1];
-% Gu= [dt*c, 0;
-%      dt*s, 0;
-%      dt*tan(g)/WB, v*dt/(WB*cos(g)^2)];
-% 
-% % predict covariance
-% P(1:3,1:3)= Gv*P(1:3,1:3)*Gv' + Gu*Q*Gu';
-% if size(P,1)>3
-%     P(1:3,4:end)= Gv*P(1:3,4:end);
-%     P(4:end,1:3)= P(1:3,4:end)';
-% end    
-% 
-% % predict state
-% x(1:3)= [x(1) + vtc; 
-%          x(2) + vts;
-%          pi_to_pi(x(3)+ v*dt*tan(g)/WB)];
+%% Notes for student: 
+% This function implements the EKF prediction step. The estimate mean is
+% updated using the same update as in the "vehicle_model.m" function, but
+% now with the estimate instead of the true robot pose.
+% You must compute the two Jacobian explained in class and apply the
+% equations to propagate the cov. matrix. Note that the covariance
+% componenets affecting only the landmarks are not updated so avoid as many
+% multiplications by zero as possible by only updating the necessary parts
+% of the cov. matrix.
+% return the new estimate mean (x) and cov. matrix (P)
